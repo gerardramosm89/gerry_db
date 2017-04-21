@@ -45,6 +45,15 @@ module.exports = {
       });
   },
   delete(req, res) {
-    console.log("req is: ", req.body);
+    User.find({ username: req.body.username }).then((user) => {
+      let foundUser = user[0];
+      if (user.length > 0) {
+        User.findByIdAndRemove(foundUser._id).then((response) => {
+          return res.send({ message: "User was deleted" });
+        }).catch((err) => console.log(err));
+      } else {
+        res.send({ message: "User not found" });
+      }
+    }).catch((err) => res.send({ message: "No user to delete" }));
   }
 }
