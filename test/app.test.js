@@ -6,7 +6,7 @@ describe('The express app', () => {
     request(app)
       .get('/api')
       .end((err, response) => {
-        console.log(response.body.message);
+        // console.log(response.body.message);
         done();
       });
   });

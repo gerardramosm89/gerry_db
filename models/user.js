@@ -13,4 +13,6 @@ const UserSchema = new Schema({
   }
 })
 
-module.exports = UserSchema;
+const User = mongoose.model('user', DriverSchema);
+
+module.exports = User;
