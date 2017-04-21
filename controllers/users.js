@@ -48,9 +48,17 @@ module.exports = {
     User.find({ username: req.body.username }).then((user) => {
       let foundUser = user[0];
       if (user.length > 0) {
-        User.findByIdAndRemove(foundUser._id).then((response) => {
-          return res.send({ message: "User was deleted" });
-        }).catch((err) => console.log(err));
+        let plainTextPass = req.body.password;
+        bcrypt.compare(plainTextPass, user[0].password)
+          .then((response) => {
+            if (response !== true) { 
+              return res.send({ message: "Wrong password" });
+            } else {
+              User.findByIdAndRemove(foundUser._id).then((response) => {
+                return res.send({ message: "User was deleted" });
+              }).catch((err) => console.log(err));
+            }
+          }).catch((err) => console.log(err));
       } else {
         res.send({ message: "User not found" });
       }
