@@ -6,6 +6,7 @@ module.exports = (app) => {
   })
 
   app.get('/api/users', UsersCtrl.greeting);
-
+  app.post('/api/userauth', UsersCtrl.find);
   app.post('/api/users', UsersCtrl.create);
+  app.delete('/api/users', UsersCtrl.delete);
 };

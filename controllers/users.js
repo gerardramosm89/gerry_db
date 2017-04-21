@@ -1,16 +1,50 @@
 const User = require('../models/user');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 module.exports = {
   greeting(req, res) {
     res.send({ message: "Hello from users controller!" });
   },
   create(req, res) {
-    console.log(req.body);
     const userProps = req.body;
-    User.create(userProps)
+    User.findOne({ username: userProps.username})
+    .then((user) => {
+      if (user) {
+        res.send({ message: 'User exists' });
+      }
+      else {
+        bcrypt.hash(userProps.password, saltRounds)
+        .then((hash) => {
+          userProps.password = hash;
+          const newUser = new User(userProps);
+          newUser.save().then(() => {
+            console.log("** New User Created: ", userProps);
+            res.send({ message: 'User Created!' });
+          })
+        });
+      }
+    });
+  },
+  find(req, res) {
+    userProps = req.body;
+    User.find({ username: userProps.username})
       .then(user => {
-        return res.send(user)
+        if (user.length > 0){
+          let plainTextPass = req.body.password;
+          bcrypt.compare(plainTextPass, user[0].password)
+            .then((response) => {
+              if (response !== true) return res.send({ message: "Wrong password" });
+              else {
+                return res.send({ message: "Password is right!" });
+              }
+            }).catch((err) => console.log(err));
+        } else {
+          return res.send({ message: 'User not found' });
+        }
       });
-    // res.send({ message: "You tried to create!"})
+  },
+  delete(req, res) {
+    console.log("req is: ", req.body);
   }
 }
