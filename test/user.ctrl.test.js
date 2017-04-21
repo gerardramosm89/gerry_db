@@ -8,6 +8,7 @@ describe('Users Controller', () => {
       .post('/api/users')
       .send({ email: 'test@test.com' })
       .end((err, response) => {
+        console.log('response from test was: ', response.body);
         done()
       });
   });
