@@ -34,9 +34,9 @@ module.exports = {
           let plainTextPass = req.body.password;
           bcrypt.compare(plainTextPass, user[0].password)
             .then((response) => {
-              if (response !== true) return res.send({ message: "Wrong password" });
+              if (response !== true) return res.status(400).send({ message: "Wrong password" });
               else {
-                return res.send({ message: "Password is right!" });
+                return res.status(200).send({ message: "Password is right!" });
               }
             }).catch((err) => console.log(err));
         } else {
