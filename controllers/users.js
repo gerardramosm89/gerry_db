@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const saltRounds = 10;
 
 module.exports = {
@@ -20,7 +21,8 @@ module.exports = {
           const newUser = new User(userProps);
           newUser.save().then(() => {
             console.log("** New User Created: ", userProps);
-            res.send({ message: 'User Created!' });
+            var token = jwt.sign({ user: user }, 'secret', { expiresIn: 7200 });
+            res.send({ message: 'User Created!', user: user, token: token });
           })
         });
       }
