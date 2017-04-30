@@ -11,7 +11,8 @@ module.exports = (app) => {
   app.post('/api/userauth', UsersCtrl.find);
   app.post('/api/users', UsersCtrl.create);
   app.delete('/api/users', UsersCtrl.delete);
-
+  app.get('/api/allusers', UsersCtrl.getAll);
+  app.post('/api/user/:id', UsersCtrl.getOne);
   // Blog Routes
   app.get('/api/blogs', BlogCtrl.greeting);
   app.post('/api/blogs', BlogCtrl.create);

@@ -7,6 +7,18 @@ module.exports = {
   greeting(req, res) {
     res.send({ message: "Hello from users controller!" });
   },
+  getAll(req, res) {
+    User.find({}).then(users => {
+      return res.status(200).send({ user: users });
+    })
+  },
+  getOne(req, res) {
+    const userProps = req.body;
+    console.log(req.params);
+    User.findOne({ _id: req.params.id }).then(user => {
+      return res.send(user);
+    });
+  },
   create(req, res) {
     const userProps = req.body;
     User.findOne({ username: userProps.username})

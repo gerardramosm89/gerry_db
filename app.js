@@ -5,11 +5,13 @@ const mongoose = require('mongoose');
 const app = express();
 const routes = require('./routes/routes');
 const expressGraphQL = require('express-graphql');
+const schema = require('./GraphQLSchemas/schema');
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/gerry_db');
 
 app.use('/graphql', expressGraphQL({
+  schema,
   graphiql: true
 }));
 
