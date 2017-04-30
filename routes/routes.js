@@ -1,6 +1,6 @@
 const UsersCtrl = require('../controllers/users');
 const BlogCtrl = require('../controllers/blog_posts');
-
+const CompaniesCtrl = require('../controllers/companies');
 module.exports = (app) => {
   // API Testing
   app.get('/api', (req, res) => {
@@ -13,6 +13,11 @@ module.exports = (app) => {
   app.delete('/api/users', UsersCtrl.delete);
   app.get('/api/allusers', UsersCtrl.getAll);
   app.post('/api/user/:id', UsersCtrl.getOne);
+
+  // Companies Routes
+  app.post('/api/companies', CompaniesCtrl.create);
+  app.get('/api/companies', CompaniesCtrl.findAll);
+
   // Blog Routes
   app.get('/api/blogs', BlogCtrl.greeting);
   app.post('/api/blogs', BlogCtrl.create);
