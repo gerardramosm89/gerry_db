@@ -38,7 +38,8 @@ module.exports = {
             .then((response) => {
               if (response !== true) return res.status(400).send({ message: "Wrong password" });
               else {
-                return res.status(200).send({ message: "Password is right!" });
+                var token = jwt.sign({ user: user }, 'secret', { expiresIn: 7200 });
+                return res.status(200).send({ message: "Password is right!", token: token });
               }
             }).catch((err) => console.log(err));
         } else {
