@@ -18,7 +18,7 @@ module.exports = (app) => {
   app.post('/api/companies', CompaniesCtrl.create);
   app.get('/api/companies', CompaniesCtrl.findAll);
   app.get('/api/companies/:id',CompaniesCtrl.getById);
-
+  app.get('/api/companies/:id/users', CompaniesCtrl.fetchUsersForCompany);
   // Blog Routes
   app.get('/api/blogs', BlogCtrl.greeting);
   app.post('/api/blogs', BlogCtrl.create);

@@ -1,4 +1,5 @@
 const Companies = require('../models/companies');
+const User = require('../models/user');
 
 module.exports = {
   create(req, res) {
@@ -19,6 +20,12 @@ module.exports = {
     Companies.find({ _id: req.params.id }).then(companies => {
       console.log(companies);
       res.send(companies);
+    })
+  },
+  fetchUsersForCompany(req, res) {
+    User.find({ companyId: req.params.id }).then(users => {
+      console.log("Users found for fetchUsersCompany is: ", users);
+      res.send(users);
     })
   }
 };
