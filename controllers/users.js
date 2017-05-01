@@ -70,7 +70,8 @@ module.exports = {
               return res.send({ message: "Wrong password" });
             } else {
               User.findByIdAndRemove(foundUser._id).then((response) => {
-                return res.send({ message: "User was deleted" });
+                console.log(response);
+                return res.send({ message: "User was deleted", deletedUser: response });
               }).catch((err) => console.log(err));
             }
           }).catch((err) => console.log(err));
@@ -81,11 +82,19 @@ module.exports = {
   },
   update(req, res) {
     console.log("req.body is: ", req.body);
-    User.update({ username: req.body.username }, req.body)
-      .then((updateresp) => {
-        console.log("Update response is: ", updateresp);
-        User.findOne({ username: req.body.username})
-          .then(user => res.send(user));
+      User.findOne({ username: req.body.username }).then(user => {
+        console.log("User is: ", user);
+        if (user === null) {
+          res.send({ message: "User not found" });
+        } else {
+        User.update({ username: req.body.username }, req.body)
+          .then((updateresp) => {
+            console.log("Update response is: ", updateresp);
+            User.findOne({ username: req.body.username})
+              .then(user => res.send(user));
+          });
+        }
       });
+
   }
 }
