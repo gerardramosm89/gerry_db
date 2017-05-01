@@ -13,6 +13,7 @@ module.exports = (app) => {
   app.delete('/api/users', UsersCtrl.delete);
   app.get('/api/allusers', UsersCtrl.getAll);
   app.post('/api/user/:id', UsersCtrl.getOne);
+  app.put('/api/users', UsersCtrl.update);
 
   // Companies Routes
   app.post('/api/companies', CompaniesCtrl.create);

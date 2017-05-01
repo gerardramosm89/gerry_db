@@ -7,7 +7,8 @@ const {
   GraphQLInt,
   GraphQLSchema,
   GraphQLBoolean,
-  GraphQLList
+  GraphQLList,
+  GraphQLNonNull
 } = graphql;
 const axios = require('axios');
 
@@ -71,6 +72,28 @@ const RootQuery = new GraphQLObjectType({
   }
 });
 
+const mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: {
+    addUser: {
+      type: UserType,
+      args: {
+        username: { type: new GraphQLNonNull(GraphQLString) },
+        email: { type: new GraphQLNonNull(GraphQLString) },
+        password: {type: new GraphQLNonNull(GraphQLString) },
+        admin: { type: GraphQLBoolean },
+        companyId: { type: GraphQLString }
+      },
+      resolve(parentValue, { username, email, admin, password, companyId }) {
+        return axios.post('http://localhost:3050/api/users', { username, email, password, admin, companyId }).then(resp => {
+          return resp.data.user;
+        });
+      }
+    }
+  }
+});
+
 module.exports = new GraphQLSchema({
-  query: RootQuery
+  query: RootQuery,
+  mutation
 });

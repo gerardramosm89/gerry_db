@@ -31,7 +31,7 @@ module.exports = {
         .then((hash) => {
           userProps.password = hash;
           const newUser = new User(userProps);
-          newUser.save().then(() => {
+          newUser.save().then((user) => {
             console.log("** New User Created: ", userProps);
             var token = jwt.sign({ user: user }, 'secret', { expiresIn: 7200 });
             res.send({ message: 'User Created!', user: user, token: token });
@@ -78,5 +78,14 @@ module.exports = {
         res.send({ message: "User not found" });
       }
     }).catch((err) => res.send({ message: "No user to delete" }));
+  },
+  update(req, res) {
+    console.log("req.body is: ", req.body);
+    User.update({ username: req.body.username }, req.body)
+      .then((updateresp) => {
+        console.log("Update response is: ", updateresp);
+        User.findOne({ username: req.body.username})
+          .then(user => res.send(user));
+      });
   }
 }
