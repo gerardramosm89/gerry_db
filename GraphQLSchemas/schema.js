@@ -10,6 +10,14 @@ const {
 } = graphql;
 const axios = require('axios');
 
+const CompanyType = new GraphQLObjectType({
+  name: 'Company',
+  fields: {
+    _id: { type: GraphQLString },
+    name: { type: GraphQLString },
+    description: { type: GraphQLString}
+  }
+});
 
 const UserType = new GraphQLObjectType({
   name: 'User',
@@ -17,7 +25,19 @@ const UserType = new GraphQLObjectType({
     _id: { type: GraphQLString },
     username: { type: GraphQLString },
     email: { type: GraphQLString },
-    admin: { type: GraphQLBoolean }
+    admin: { type: GraphQLBoolean },
+    company: {
+      type: CompanyType,
+      resolve(parentValue, args) {
+        console.log("Parent value is: ", parentValue);
+        console.log("Args is: ", args);
+        return axios.get(`http://localhost:3050/api/companies/${parentValue.companyId}`)
+          .then(resp => {
+            console.log("resp.data is: ", resp.data[0]);
+            return resp.data[0];
+          });
+      }
+    }
   }
 });
 

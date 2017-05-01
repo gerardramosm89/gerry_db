@@ -18,6 +18,10 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false,
     required: true
+  },
+  companyId: {
+    type: String,
+    required: true
   }
 })
 
