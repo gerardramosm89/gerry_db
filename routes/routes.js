@@ -1,11 +1,14 @@
 const UsersCtrl = require('../controllers/users');
 const BlogCtrl = require('../controllers/blog_posts');
 const CompaniesCtrl = require('../controllers/companies');
+const MessageThreadCtrl = require('../controllers/mern_chat/messageThreadController');
 module.exports = (app) => {
   // API Testing
   app.get('/api', (req, res) => {
     res.send({ message: "Hello from the API!" });
   })
+  // MessageThread Routes
+  app.post('/api/messagethread', MessageThreadCtrl.create);
   // Users Routes
   app.get('/api/users', UsersCtrl.greeting);
   app.post('/api/userauth', UsersCtrl.find);
