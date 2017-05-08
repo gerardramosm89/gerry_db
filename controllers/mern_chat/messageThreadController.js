@@ -7,6 +7,7 @@ module.exports = {
     const newMessageThread = new MessageThread(req.body);
     newMessageThread.save().then(newThread => {
       console.log("New messageThread created!", newThread);
+      MessageThread.find({ })
       res.send(newThread);
     });
   }
