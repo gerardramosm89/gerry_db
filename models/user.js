@@ -19,12 +19,9 @@ const UserSchema = new Schema({
     default: false,
     required: true
   },
-  companyId: {
-    type: String,
-    required: true
-  }
-})
+  messageThreads: [{ type: Schema.Types.ObjectId, ref: 'messageThreads' }],
+}, { timestamps: true });
 
 const User = mongoose.model('user', UserSchema);
 
-module.exports = User;
+module.exports = {User, UserSchema};

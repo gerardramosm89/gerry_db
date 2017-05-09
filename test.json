@@ -1,0 +1,12 @@
+{
+  "participants": {
+    "username": "Gerry",
+    "password": "password",
+    "email": "email@email.com",
+    "admin": true
+  },
+  "messageList": {
+    "author": "Gerry",
+    "text": "Hello Chris"
+  }
+}

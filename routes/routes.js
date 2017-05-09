@@ -9,6 +9,7 @@ module.exports = (app) => {
   })
   // MessageThread Routes
   app.post('/api/messagethread', MessageThreadCtrl.create);
+  app.post('/api/addmessage', MessageThreadCtrl.addMessage);
   // Users Routes
   app.get('/api/users', UsersCtrl.greeting);
   app.post('/api/userauth', UsersCtrl.find);
