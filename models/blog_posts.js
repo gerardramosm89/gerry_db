@@ -18,7 +18,7 @@ const BlogSchema = new Schema({
     type: String,
     required: true
   }
-})
+});
 
 const Blog = mongoose.model('blog', BlogSchema);
 

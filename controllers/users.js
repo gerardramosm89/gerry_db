@@ -48,14 +48,14 @@ module.exports = {
           let plainTextPass = req.body.password;
           bcrypt.compare(plainTextPass, user[0].password)
             .then((response) => {
-              if (response !== true) return res.status(400).send({ message: "Wrong password" });
+              if (response !== true) return res.send({ message: "Wrong password", token: null });
               else {
                 var token = jwt.sign({ user: user }, 'secret', { expiresIn: 7200 });
                 return res.status(200).send({ message: "Password is right!", token: token });
               }
             }).catch((err) => console.log(err));
         } else {
-          return res.send({ message: 'User not found' });
+          return res.send({ message: 'User not found', token: null });
         }
       });
   },
