@@ -28,4 +28,5 @@ module.exports = (app) => {
   // Blog Routes
   app.get('/api/blogs', BlogCtrl.greeting);
   app.post('/api/blogs', BlogCtrl.create);
+  app.post('/api/queryblogs', BlogCtrl.findPerUser);
 };
