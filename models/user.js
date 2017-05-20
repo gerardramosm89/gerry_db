@@ -19,6 +19,7 @@ const UserSchema = new Schema({
     default: false,
     required: true
   },
+  blogs: [{ type: Schema.Types.ObjectId, ref: 'blogs' }],
   messageThreads: [{ type: Schema.Types.ObjectId, ref: 'messageThreads' }],
 }, { timestamps: true });
 

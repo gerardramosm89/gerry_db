@@ -9,7 +9,7 @@ const BlogSchema = new Schema({
   author: { type: Schema.Types.ObjectId, ref: 'user' },
   date: {
     type: String,
-    required: true
+    // required: true
   },
   title: {
     type: String,
@@ -21,6 +21,6 @@ const BlogSchema = new Schema({
   }
 });
 
-const Blog = mongoose.model('blog', BlogSchema);
+const Blog = mongoose.model('blogs', BlogSchema);
 
 module.exports = Blog;
