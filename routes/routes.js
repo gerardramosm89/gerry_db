@@ -7,18 +7,23 @@ const jwt = require('jsonwebtoken');
 module.exports = (app) => {
   // API Testing
 
+  // Unprotected routes
+
+  // User authentication
+  app.post('/api/userauth', UsersCtrl.find);
+  
   // Protecting all API calls, user needs to be logged in to view everything below this
-  app.use('/', (req, res, next) => {
-    console.log('req.query is: ', req.query);
-    console.log('req.body is: ', req.body);
-    console.log("hit the jwt check, req.body.token is: ", req.body.token);
-    jwt.verify(req.body.token, 'secret', function(err, decoded){
-      if (err) {
-        return res.status(401).send({ error: err });
-      }
-      next();
-    });
-  });
+  // app.use('/', (req, res, next) => {
+  //   console.log('req.query is: ', req.query);
+  //   console.log('req.body is: ', req.body);
+  //   console.log("hit the jwt check, req.body.token is: ", req.body.token);
+  //   jwt.verify(req.body.token, 'secret', function(err, decoded){
+  //     if (err) {
+  //       return res.status(401).send({ message: 'Token is invalid', error: err });
+  //     }
+  //     next();
+  //   });
+  // });
   // End route protection
 
   // API Test Message
@@ -32,7 +37,7 @@ module.exports = (app) => {
   
   // Users Routes
   // app.get('/api/users', UsersCtrl.greeting); need to take this out
-  app.post('/api/userauth', UsersCtrl.find);
+
   app.post('/api/users', UsersCtrl.create);
   app.delete('/api/users', UsersCtrl.delete);
   // app.get('/api/allusers', UsersCtrl.getAll); Should be no reason for this
