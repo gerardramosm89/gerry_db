@@ -1,5 +1,6 @@
 const moment = require('moment');
 const Blog = require('../models/blog_posts');
+const mongoose = require('mongoose');
 
 module.exports = {
   greeting(req, res) {
@@ -9,7 +10,7 @@ module.exports = {
     console.log(Math.floor(new Date() / 1000));
     console.log('moment is: ', moment().format('YYYY/MM/DD HH:mma'));
     let newBlog = new Blog({
-      author: req.body.author,
+      author: mongoose.Types.ObjectId(`${req.body.authorId}`),
       date: moment().format('YYYY/MM/DD HH:mma'),
       title: req.body.title,
       content: req.body.content
