@@ -8,20 +8,6 @@ module.exports = {
   greeting(req, res) {
     res.send({ message: "Greeting from Blog API!" });
   },
-  // create(req, res) {
-  //   console.log(Math.floor(new Date() / 1000));
-  //   console.log('moment is: ', moment().format('YYYY/MM/DD HH:mma'));
-  //   let newBlog = new Blog({
-  //     author: mongoose.Types.ObjectId(`${req.body.authorId}`),
-  //     date: moment().format('YYYY/MM/DD HH:mma'),
-  //     title: req.body.title,
-  //     content: req.body.content
-  //   });
-  //   newBlog.save().then(user => {
-  //     res.send(user);
-  //     console.log(user, "was saved");
-  //   });
-  // },
   create(req, res) {
     if (!req.body.token) {
       return res.send({ message: 'Token required' });
