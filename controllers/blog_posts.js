@@ -28,13 +28,18 @@ module.exports = {
     }
     jwt.verify(req.body.token, 'secret', function(err, decoded){
       console.log('decoded is: ', decoded);
-      authorId = decoded.user[0]._id;
+      if (!decoded) {
+        return res.send({ message: 'Token has expired, log in again' });
+      }
+      console.log("decoded is: ", decoded);
+      authorId = mongoose.Types.ObjectId(decoded.user[0]._id);
       title = req.body.newblog.title;
       content = req.body.newblog.content;
-      username = decoded.user[0].username;
+      username = decoded.user;
+      console.log('authorId is: ', authorId);
       console.log("req.body.newblog is: ", { authorId, title, content });
       newBlogPost = new Blog({ authorId, title, content });
-      newBlogPost.save();
+      newBlogPost.save().then(savedPost => console.log('savedPost is: ', savedPost));
       User.findOneAndUpdate({ username: username}, {$push: {blogs: newBlogPost }})
         .then(response => {
           return res.send({ response });
@@ -49,8 +54,10 @@ module.exports = {
     }
     jwt.verify(req.body.token, 'secret', function(err, decoded){
       console.log('decoded is: ', decoded);
-      author = decoded.user[0].username;
-      console.log('user that is saying hello is: ', decoded.user[0].username);
+      if (!decoded) {
+        return res.send({ message: 'Token has expired' });
+      }
+      author = decoded.user;
       console.log('author is: ', author);
       User.findOne({ username: author })
         .populate('blogs')
@@ -65,6 +72,11 @@ module.exports = {
     if (!req.body.token) {
       return res.send({ message: 'Token required' });
     }
-    
+    jwt.verify(req.body.token, 'secret', function(err, decoded) {
+      console.log(decoded);
+    });
+    Blog.find({ _id: req.body.postId }).then(blog => {
+      return res.send(blog);
+    });
   }
 };

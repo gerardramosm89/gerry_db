@@ -6,7 +6,7 @@ const BlogSchema = new Schema({
   //   type: String,
   //   required: true
   // },
-  author: { type: Schema.Types.ObjectId, ref: 'user' },
+  authorId: { type: Schema.Types.ObjectId, ref: 'user' , required: true},
   date: {
     type: String,
     // required: true
