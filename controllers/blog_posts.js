@@ -23,6 +23,9 @@ module.exports = {
   //   });
   // },
   create(req, res) {
+    if (!req.body.token) {
+      return res.send({ message: 'Token required' });
+    }
     jwt.verify(req.body.token, 'secret', function(err, decoded){
       console.log('decoded is: ', decoded);
       authorId = decoded.user[0]._id;
@@ -41,6 +44,9 @@ module.exports = {
   },
   findPerUser(req, res) {
     let author;
+    if (!req.body.token) {
+      return res.send({ message: 'Token required' });
+    }
     jwt.verify(req.body.token, 'secret', function(err, decoded){
       console.log('decoded is: ', decoded);
       author = decoded.user[0].username;
