@@ -59,6 +59,12 @@ module.exports = {
           res.send(user);
         });
     });
-
+  },
+  fetchOne(req, res) {
+    let author;
+    if (!req.body.token) {
+      return res.send({ message: 'Token required' });
+    }
+    
   }
 };
