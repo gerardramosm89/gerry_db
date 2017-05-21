@@ -17,14 +17,14 @@ module.exports = (app) => {
   //   console.log('req.query is: ', req.query);
   //   console.log('req.body is: ', req.body);
   //   console.log("hit the jwt check, req.body.token is: ", req.body.token);
-  //   jwt.verify(req.body.token, 'secret', function(err, decoded){
-  //     console.log('decoded is: ', decoded);
-  //     console.log('user that is saying hello is: ', decoded.user[0].username);
-  //     if (err) {
-  //       return res.status(401).send({ message: 'Token is invalid', error: err });
-  //     }
-  //     next();
-  //   });
+    // jwt.verify(req.body.token, 'secret', function(err, decoded){
+    //   console.log('decoded is: ', decoded);
+    //   console.log('user that is saying hello is: ', decoded.user[0].username);
+    //   if (err) {
+    //     return res.status(401).send({ message: 'Token is invalid', error: err });
+    //   }
+    //   next();
+    // });
   // });
   // End route protection
 
