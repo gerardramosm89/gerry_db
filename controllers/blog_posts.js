@@ -46,9 +46,16 @@ module.exports = {
       author = decoded.user;
       console.log('author is: ', author);
       User.findOne({ username: author })
-        .populate('blogs')
+        // .populate('blogs')
+        .populate({
+          path: 'blogs',
+          options: {
+            // limit: 5,
+            sort: {'createdAt': -1}
+          }
+        })        
         .then(user => {
-          console.log(user.blogs);
+          console.log(user.blogs + '\n');
           res.send(user);
         });
     });
@@ -64,5 +71,30 @@ module.exports = {
     Blog.find({ _id: req.body.postId }).then(blog => {
       return res.send(blog);
     });
+  },
+  deleteOne(req, res) {
+    const postId = req.body.postId;
+    const decoded = '';
+    jwt.verify(req.body.token, 'secret', function(err, decoded) {
+      decoded = decoded;
+      console.log(decoded);
+      console.log('User is: ', decoded.user);
+      Blog.findOneAndRemove({ _id: postId })
+      .then(() => {
+        return Blog.findOne({ _id: postId }).then(post => {
+          console.log('post after finding one is: ', post);
+          if (post == null) {
+            User.update({ username: decoded.user }, { $pull: { blogs: postId}})
+              .then(response => {
+                console.log('response from user update is: ', response);
+              });
+            res.send({ message: 'message removed!'});
+          } else {
+            res.send({ message: 'Message still in database, delete unsuccessful'});
+          }
+        });
+      });
+    });
+
   }
 };
