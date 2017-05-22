@@ -95,6 +95,17 @@ module.exports = {
         });
       });
     });
+  },
+  findOneandUpdate(req, res) {
+    const postId = req.body.postId;
+    const updates = req.body.updates;
+    console.log('postId we are updating is: ', postId);
+    console.log('Updates we are pushing are: ', updates);
 
+    Blog.findByIdAndUpdate(postId, updates)
+      .then(updateResponse => {
+        console.log('updateResponse is: ', updateResponse);
+        res.send(updateResponse);
+      });
   }
 };

@@ -58,4 +58,5 @@ module.exports = (app) => {
   app.post('/api/queryblogs', BlogCtrl.findPerUser);
   app.post('/api/fetchone', BlogCtrl.fetchOne);
   app.post('/api/deleteOne', BlogCtrl.deleteOne);
+  app.post('/api/updateOne', BlogCtrl.findOneandUpdate);
 };
