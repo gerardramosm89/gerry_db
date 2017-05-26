@@ -18,6 +18,19 @@ const BlogSchema = new Schema({
   content: {
     type: String,
     required: true
+  },
+  learningPath: {
+    type: String,
+    required: true
+  },
+  postOrder: {
+    type: Number,
+    required: true
+  },
+  publish: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 }, { timestamps: true});
 

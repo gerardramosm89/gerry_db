@@ -13,23 +13,32 @@ module.exports = {
       return res.send({ message: 'Token required' });
     }
     jwt.verify(req.body.token, 'secret', function(err, decoded){
-      console.log('decoded is: ', decoded);
       if (!decoded) {
         return res.send({ message: 'Token has expired, log in again' });
       }
-      console.log("decoded is: ", decoded);
       authorId = mongoose.Types.ObjectId(decoded.user[0]._id);
       title = req.body.newblog.title;
       content = req.body.newblog.content;
+      learningPath = req.body.learningPath;
+      postOrder = req.body.postOrder;
+      publish = req.body.publish;
       username = decoded.user;
       console.log('authorId is: ', authorId);
-      console.log("req.body.newblog is: ", { authorId, title, content });
-      newBlogPost = new Blog({ authorId, title, content });
-      newBlogPost.save().then(savedPost => console.log('savedPost is: ', savedPost));
-      User.findOneAndUpdate({ username: username}, {$push: {blogs: newBlogPost }})
+      console.log("req.body.newblog is: ", req.body.newblog);
+
+      const postToBeInserted = req.body.newblog;
+      postToBeInserted.authorId = authorId;
+      console.log('postToBeInserted is: ', postToBeInserted);
+      newBlogPost = new Blog(postToBeInserted);
+      newBlogPost.save().then(savedPost => {
+        console.log('savedPost is: ', savedPost);
+        User.findOneAndUpdate({ username: username}, {$push: {blogs: newBlogPost }})
         .then(response => {
-          return res.send({ response });
+          return res.status(201).send({ response });
         });
+        // return res.status(201).send(savedPost);
+      });
+
     });
 
   },
@@ -107,5 +116,10 @@ module.exports = {
         console.log('updateResponse is: ', updateResponse);
         res.send(updateResponse);
       });
+  },
+  fetchAll(req, res) {
+    Blog.find({}).then(posts => {
+      res.send(posts);
+    });
   }
 };
