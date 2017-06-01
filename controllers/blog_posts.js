@@ -113,7 +113,6 @@ module.exports = {
 
     Blog.findByIdAndUpdate(postId, updates)
       .then(updateResponse => {
-        console.log('updateResponse is: ', updateResponse);
         res.send(updateResponse);
       });
   },
@@ -121,5 +120,18 @@ module.exports = {
     Blog.find({}).then(posts => {
       res.send(posts);
     });
+  },
+  fetchByLearningPath(req, res) {
+    console.log('req.body.learningPath is: ', req.body.learningPath);
+    Blog.find({ learningPath: req.body.learningPath })
+      .then(posts => {
+        res.send(posts.sort(function compareNumbers(a,b) {
+          let vara = a.postOrder;
+          let varb = b.postOrder;
+          if (vara < varb) return -1;
+          if (vara > varb) return 1;
+          return 0
+        }));
+      });
   }
 };

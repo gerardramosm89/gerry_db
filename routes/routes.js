@@ -60,4 +60,5 @@ module.exports = (app) => {
   app.post('/api/deleteOne', BlogCtrl.deleteOne);
   app.post('/api/updateOne', BlogCtrl.findOneandUpdate);
   app.post('/api/fetchall', BlogCtrl.fetchAll);
+  app.post('/api/learningpath', BlogCtrl.fetchByLearningPath);
 };
