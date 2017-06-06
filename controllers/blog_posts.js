@@ -122,8 +122,9 @@ module.exports = {
     });
   },
   fetchByLearningPath(req, res) {
-    console.log('req.body.learningPath is: ', req.body.learningPath);
-    Blog.find({ learningPath: req.body.learningPath })
+    var learningPath = req.body.learningPath;
+    console.log('learningPath is: ', learningPath);
+    Blog.find({ 'learningPath.path': learningPath })
       .then(posts => {
         res.send(posts.sort(function compareNumbers(a,b) {
           let vara = a.postOrder;
