@@ -127,8 +127,8 @@ module.exports = {
     Blog.find({ 'learningPath.path': learningPath })
       .then(posts => {
         res.send(posts.sort(function compareNumbers(a,b) {
-          let vara = a.postOrder;
-          let varb = b.postOrder;
+          let vara = a.learningPath.orderNum;
+          let varb = b.learningPath.orderNum;
           if (vara < varb) return -1;
           if (vara > varb) return 1;
           return 0
