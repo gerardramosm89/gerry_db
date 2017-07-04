@@ -17,7 +17,7 @@ app.use('/graphql', expressGraphQL({
 
 app.use(cors());
 app.use(bodyParser.json());
-
+app.use( bodyParser.raw({ limit: '5mb' }));
 routes(app);
 
 module.exports = app;
