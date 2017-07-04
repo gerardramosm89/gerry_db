@@ -31,12 +31,10 @@ module.exports = {
       console.log('postToBeInserted is: ', postToBeInserted);
       newBlogPost = new Blog(postToBeInserted);
       newBlogPost.save().then(savedPost => {
-        console.log('savedPost is: ', savedPost);
         User.findOneAndUpdate({ username: username}, {$push: {blogs: newBlogPost }})
         .then(response => {
           return res.status(201).send({ response });
         });
-        // return res.status(201).send(savedPost);
       });
 
     });
@@ -48,23 +46,19 @@ module.exports = {
       return res.send({ message: 'Token required' });
     }
     jwt.verify(req.body.token, 'secret', function(err, decoded){
-      console.log('decoded is: ', decoded);
       if (!decoded) {
         return res.send({ message: 'Token has expired' });
       }
       author = decoded.user;
-      console.log('author is: ', author);
       User.findOne({ username: author })
         // .populate('blogs')
         .populate({
           path: 'blogs',
           options: {
-            // limit: 5,
             sort: {'createdAt': -1}
           }
         })        
         .then(user => {
-          console.log(user.blogs + '\n');
           res.send(user);
         });
     });
@@ -75,7 +69,6 @@ module.exports = {
       return res.send({ message: 'Token required' });
     }
     jwt.verify(req.body.token, 'secret', function(err, decoded) {
-      console.log(decoded);
     });
     Blog.find({ _id: req.body.postId }).then(blog => {
       return res.send(blog);
@@ -86,16 +79,12 @@ module.exports = {
     const decoded = '';
     jwt.verify(req.body.token, 'secret', function(err, decoded) {
       decoded = decoded;
-      console.log(decoded);
-      console.log('User is: ', decoded.user);
       Blog.findOneAndRemove({ _id: postId })
       .then(() => {
         return Blog.findOne({ _id: postId }).then(post => {
-          console.log('post after finding one is: ', post);
           if (post == null) {
             User.update({ username: decoded.user }, { $pull: { blogs: postId}})
               .then(response => {
-                console.log('response from user update is: ', response);
               });
             res.send({ message: 'message removed!'});
           } else {
@@ -108,9 +97,6 @@ module.exports = {
   findOneandUpdate(req, res) {
     const postId = req.body.postId;
     const updates = req.body.updates;
-    console.log('postId we are updating is: ', postId);
-    console.log('Updates we are pushing are: ', updates);
-
     Blog.findByIdAndUpdate(postId, updates)
       .then(updateResponse => {
         res.send(updateResponse);
@@ -123,7 +109,6 @@ module.exports = {
   },
   fetchByLearningPath(req, res) {
     var learningPath = req.body.learningPath;
-    console.log('learningPath is: ', learningPath);
     Blog.find({ 'learningPath.path': learningPath })
       .then(posts => {
         res.send(posts.sort(function compareNumbers(a,b) {
