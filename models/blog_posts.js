@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const BlogSchema = new Schema({
   authorId: { type: Schema.Types.ObjectId, ref: 'user' , required: true},
+  author: { type: String, required: true },
   title: { type: String, required: true },
   subheading: { type: String, required: true },
   content: { type: String, required: true },

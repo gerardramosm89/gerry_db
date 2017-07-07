@@ -17,6 +17,8 @@ module.exports = {
         return res.send({ message: 'Token has expired, log in again' });
       }
       authorId = mongoose.Types.ObjectId(decoded.user[0]._id);
+      console.log('decoded.user is: ', decoded.user);
+      author = decoded.user;
       title = req.body.newblog.title;
       content = req.body.newblog.content;
       learningPath = req.body.learningPath;
@@ -28,6 +30,7 @@ module.exports = {
 
       const postToBeInserted = req.body.newblog;
       postToBeInserted.authorId = authorId;
+      postToBeInserted.author = author;
       console.log('postToBeInserted is: ', postToBeInserted);
       newBlogPost = new Blog(postToBeInserted);
       newBlogPost.save().then(savedPost => {
@@ -50,6 +53,7 @@ module.exports = {
         return res.send({ message: 'Token has expired' });
       }
       author = decoded.user;
+      console.log('current author is: ', author);
       User.findOne({ username: author })
         // .populate('blogs')
         .populate({
