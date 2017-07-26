@@ -68,14 +68,19 @@ module.exports = {
     });
   },
   fetchOne(req, res) {
-    let author;
-    if (!req.body.token) {
-      return res.send({ message: 'Token required' });
-    }
-    jwt.verify(req.body.token, 'secret', function(err, decoded) {
-    });
+    // let author;
+    // if (!req.body.token) {
+    //   return res.send({ message: 'Token required' });
+    // }
+    // jwt.verify(req.body.token, 'secret', function(err, decoded) {
+    // });
+    // Blog.find({ _id: req.body.postId }).then(blog => {
+    //   return res.send(blog);
+    // });
+
+    // No route protection for single gets
     Blog.find({ _id: req.body.postId }).then(blog => {
-      return res.send(blog);
+      return res.send(blog); 
     });
   },
   deleteOne(req, res) {
