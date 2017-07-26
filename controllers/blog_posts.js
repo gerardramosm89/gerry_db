@@ -4,6 +4,10 @@ const { User } = require('../models/user');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 
+// Import helper functions from utils
+
+const { unWrapURL } = require('./utils/index');
+
 module.exports = {
   greeting(req, res) {
     res.send({ message: "Greeting from Blog API!" });
@@ -19,15 +23,10 @@ module.exports = {
       authorId = mongoose.Types.ObjectId(decoded.user[0]._id);
       console.log('decoded.user is: ', decoded.user);
       author = decoded.user;
-      title = req.body.newblog.title;
-      content = req.body.newblog.content;
-      learningPath = req.body.learningPath;
-      postOrder = req.body.postOrder;
-      publish = req.body.publish;
+      let { title, content, learningPath, postOrder, publish } = req.body;
       username = decoded.user;
       console.log('authorId is: ', authorId);
       console.log("req.body.newblog is: ", req.body.newblog);
-
       const postToBeInserted = req.body.newblog;
       postToBeInserted.authorId = authorId;
       postToBeInserted.author = author;
@@ -53,7 +52,6 @@ module.exports = {
         return res.send({ message: 'Token has expired' });
       }
       author = decoded.user;
-      console.log('current author is: ', author);
       User.findOne({ username: author })
         // .populate('blogs')
         .populate({
@@ -68,20 +66,18 @@ module.exports = {
     });
   },
   fetchOne(req, res) {
-    // let author;
-    // if (!req.body.token) {
-    //   return res.send({ message: 'Token required' });
-    // }
-    // jwt.verify(req.body.token, 'secret', function(err, decoded) {
-    // });
-    // Blog.find({ _id: req.body.postId }).then(blog => {
-    //   return res.send(blog);
-    // });
 
     // No route protection for single gets
-    Blog.find({ _id: req.body.postId }).then(blog => {
-      return res.send(blog); 
-    });
+    // Blog.find({ _id: req.body.postId }).then(blog => {
+    //   return res.send(blog); 
+    // });
+    let newUrl = unWrapURL(req.body.postId);
+    console.log('title should be: ', newUrl);
+    console.log('res.body is: ', req.body);
+    Blog.find({ title: {$regex: newUrl, $options: "i" } }).then(blog => {
+        console.log('blog is: ', blog); 
+        return res.send(blog)
+      });
   },
   deleteOne(req, res) {
     const postId = req.body.postId;
