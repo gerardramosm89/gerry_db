@@ -50,9 +50,8 @@ module.exports = {
             .then((response) => {
               if (response !== true) return res.send({ message: "Wrong password", token: null });
               else {
-                console.log('user is: ', user);
                 var token = jwt.sign({ user: user[0].username }, 'secret', { expiresIn: 720000 });
-                return res.status(200).send({ message: "Pasdsfdssword is right!", token: token, user: user[0].username });
+                return res.status(200).send({ message: "Password is right!", token: token, user: user[0].username });
               }
             }).catch((err) => console.log(err));
         } else {
@@ -94,6 +93,18 @@ module.exports = {
             User.findOne({ username: req.body.username})
               .then(user => res.send(user));
           });
+        }
+      });
+  },
+  verifyToken(req, res) {
+    console.log('---------');
+    console.log('currently verifying token');
+      let token = req.body.token;
+      jwt.verify(token, 'secret', (err, decoded) => {
+        if (err) res.send({ message: "Token is nowinvalid, can't refresh", token: null });
+        else {
+          let newToken = jwt.sign({ user: decoded.user }, 'secret', { expiresIn: '2d' });
+          res.send({ message: 'Token was refreshed', token: newToken})
         }
       });
   }

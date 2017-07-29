@@ -45,6 +45,7 @@ module.exports = (app) => {
   // app.get('/api/allusers', UsersCtrl.getAll); Should be no reason for this
   app.post('/api/user/:id', UsersCtrl.getOne);
   app.put('/api/users', UsersCtrl.update);
+  app.post('/api/verifytoken', UsersCtrl.verifyToken);
 
   // Companies Routes
   app.post('/api/companies', CompaniesCtrl.create);
