@@ -50,7 +50,7 @@ module.exports = {
             .then((response) => {
               if (response !== true) return res.send({ message: "Wrong password", token: null });
               else {
-                var token = jwt.sign({ user: user[0].username }, 'secret', { expiresIn: 720000 });
+                var token = jwt.sign({ user: user[0].username, _id: user[0]._id }, 'secret', { expiresIn: 720000 });
                 return res.status(200).send({ message: "Password is right!", token: token, user: user[0].username });
               }
             }).catch((err) => console.log(err));

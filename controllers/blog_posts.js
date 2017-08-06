@@ -12,6 +12,11 @@ module.exports = {
   greeting(req, res) {
     res.send({ message: "Greeting from Blog API!" });
   },
+
+  /* Create expects the body of:
+    "newblog": { All the objects on the blogPosts model}
+    "token": { This needs to be the token from the JWT which contains user and _id}
+  */
   create(req, res) {
     if (!req.body.token) {
       return res.send({ message: 'Token required' });
@@ -20,16 +25,18 @@ module.exports = {
       if (!decoded) {
         return res.send({ message: 'Token has expired, log in again' });
       }
-      authorId = mongoose.Types.ObjectId(decoded.user[0]._id);
-      console.log('decoded.user is: ', decoded.user);
+      authorId = mongoose.Types.ObjectId(decoded.user._id);
+      console.log('decoded is: ', decoded);
       author = decoded.user;
-      let { title, content, learningPath, postOrder, publish } = req.body;
+      let { title, content, learningPath, postOrder, publish, titleImageName } = req.body;
       username = decoded.user;
       console.log('authorId is: ', authorId);
       console.log("req.body.newblog is: ", req.body.newblog);
+      console.log('--------');
       const postToBeInserted = req.body.newblog;
       postToBeInserted.authorId = authorId;
       postToBeInserted.author = author;
+      postToBeInserted.titleImageName = req.body.newblog.titleImageName;
       console.log('postToBeInserted is: ', postToBeInserted);
       newBlogPost = new Blog(postToBeInserted);
       newBlogPost.save().then(savedPost => {
@@ -73,7 +80,7 @@ module.exports = {
     // });
     let newUrl = unWrapURL(req.body.postId);
     console.log('title should be: ', newUrl);
-    console.log('res.body is: ', req.body);
+    console.log('req.body is: ', req.body);
     Blog.find({ title: {$regex: newUrl, $options: "i" } }).then(blog => {
         console.log('blog is: ', blog); 
         return res.send(blog)
@@ -100,6 +107,7 @@ module.exports = {
     });
   },
   findOneandUpdate(req, res) {
+    console.log('req.body is: ', req.body);
     const postId = req.body.postId;
     const updates = req.body.updates;
     Blog.findByIdAndUpdate(postId, updates)
