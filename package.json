@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"nodemon index.js \" \"node envconfig.js\"",
+    "start": "concurrently \"nodemon index.js \"",
     "test": "nodemon --exec 'mocha --recursive -R min'"
   },
   "author": "",

@@ -8,7 +8,8 @@ const expressGraphQL = require('express-graphql');
 const schema = require('./GraphQLSchemas/schema');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/gerry_db');
+// mongoose.connect('mongodb://localhost:27017/gerry_db');
+mongoose.createConnection('mongodb://localhost:27017/gerry_db');
 
 app.use('/graphql', expressGraphQL({
   schema,
