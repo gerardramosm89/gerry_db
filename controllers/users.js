@@ -100,10 +100,15 @@ module.exports = {
     console.log('---------');
     console.log('currently verifying token');
       let token = req.body.token;
+      if (!token) return console.log('no token to verify, need to sign in');
       jwt.verify(token, 'secret', (err, decoded) => {
-        if (err) res.send({ message: "Token is nowinvalid, can't refresh", token: null });
+        if (err) {
+          console.log('verifying token ran into an error: ', err);
+          return res.send({ message: "Token is nowinvalid, can't refresh", token: null });
+        }
         else {
           let newToken = jwt.sign({ user: decoded.user }, 'secret', { expiresIn: '2d' });
+          console.log('successfully verified, new token is: ', newToken);
           res.send({ message: 'Token was refreshed', token: newToken})
         }
       });
