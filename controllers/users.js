@@ -41,20 +41,26 @@ module.exports = {
     });
   },
   find(req, res) {
+    console.log('a user is signing in');
     userProps = req.body;
     User.find({ username: userProps.username})
       .then(user => {
+        console.log('user found: ', user);
         if (user.length > 0){
           let plainTextPass = req.body.password;
+          console.log('plaintext pass is: ', plainTextPass);
           bcrypt.compare(plainTextPass, user[0].password)
             .then((response) => {
+              console.log('response from bcrypt is: ', response);
               if (response !== true) return res.send({ message: "Wrong password", token: null });
               else {
                 var token = jwt.sign({ user: user[0].username, _id: user[0]._id }, 'secret', { expiresIn: 720000 });
+                console.log('password is correct!');
                 return res.status(200).send({ message: "Password is right!", token: token, user: user[0].username });
               }
             }).catch((err) => console.log(err));
         } else {
+          console.log('could not find user');
           return res.send({ message: 'User not found', token: null });
         }
       });
