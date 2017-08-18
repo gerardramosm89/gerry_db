@@ -43,6 +43,7 @@ module.exports = {
   find(req, res) {
     console.log('a user is signing in');
     userProps = req.body;
+    console.log('userProps is: ', userProps);
     User.find({ username: userProps.username})
       .then(user => {
         console.log('user found: ', user);
