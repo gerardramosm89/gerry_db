@@ -126,22 +126,12 @@ module.exports = {
       console.log('decoded is: ', decoded);
       User.find({ username: decoded.user })
         .then((res) => {
-
-
-          // bcrypt.hash(req.body.newPassword, saltRounds)
-          // .then((hash) => {
-          //   console.log(`hash is: ${hash}`);
-          //   User.findOneAndUpdate({ username: res[0].username }, { password: hash }).then(res => {
-          //     console.log(`PASSWORD WAS UPDATED`);
-          //     console.log(`res from password update was ${res}`)
-          //   });
-          // });
           bcrypt.compare(req.body.password, res[0].password)
             .then((res) => {
               if (res === true) {
                 console.log(`${decoded.user} is changing their password.... Okay passwords match, let\'s change the password`);
 
-                bcrypt.hash('newpassword', saltRounds)
+                bcrypt.hash(req.body.newPassword, saltRounds)
                 .then((hash) => {
                   console.log(`hash is: ${hash}`);
                   User.findOneAndUpdate({ username: req.body.username }, { password: hash }).then(res => {
