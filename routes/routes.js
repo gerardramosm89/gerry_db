@@ -38,14 +38,14 @@ module.exports = (app) => {
   app.post('/api/addmessage', MessageThreadCtrl.addMessage);
   
   // Users Routes
-  // app.get('/api/users', UsersCtrl.greeting); need to take this out
-
   app.post('/api/users', UsersCtrl.create);
   app.delete('/api/users', UsersCtrl.delete);
   // app.get('/api/allusers', UsersCtrl.getAll); Should be no reason for this
   app.post('/api/user/:id', UsersCtrl.getOne);
   app.put('/api/users', UsersCtrl.update);
   app.post('/api/verifytoken', UsersCtrl.verifyToken);
+  app.post('/api/changepassword', UsersCtrl.changePassword);
+
 
   // Companies Routes
   app.post('/api/companies', CompaniesCtrl.create);
@@ -54,7 +54,6 @@ module.exports = (app) => {
   app.get('/api/companies/:id/users', CompaniesCtrl.fetchUsersForCompany);
   
   // Blog Routes
-  // app.get('/api/blogs', BlogCtrl.greeting);
   app.post('/api/blogs/create', BlogCtrl.create);
   app.post('/api/queryblogs', BlogCtrl.findPerUser);
   app.post('/api/fetchone', BlogCtrl.fetchOne);

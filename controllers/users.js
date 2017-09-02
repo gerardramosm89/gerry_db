@@ -119,5 +119,48 @@ module.exports = {
           res.send({ message: 'Token was refreshed', token: newToken})
         }
       });
+  },
+  async changePassword(req, res) {
+    console.log(`-------\n${req.body.username} is attempting to change their password\n\n\n\n\n`);
+    jwt.verify(req.body.token, 'secret', (err, decoded) => {
+      console.log('decoded is: ', decoded);
+      User.find({ username: decoded.user })
+        .then((res) => {
+
+
+          // bcrypt.hash(req.body.newPassword, saltRounds)
+          // .then((hash) => {
+          //   console.log(`hash is: ${hash}`);
+          //   User.findOneAndUpdate({ username: res[0].username }, { password: hash }).then(res => {
+          //     console.log(`PASSWORD WAS UPDATED`);
+          //     console.log(`res from password update was ${res}`)
+          //   });
+          // });
+          bcrypt.compare(req.body.password, res[0].password)
+            .then((res) => {
+              if (res === true) {
+                console.log(`${decoded.user} is changing their password.... Okay passwords match, let\'s change the password`);
+
+                bcrypt.hash('newpassword', saltRounds)
+                .then((hash) => {
+                  console.log(`hash is: ${hash}`);
+                  User.findOneAndUpdate({ username: req.body.username }, { password: hash }).then(res => {
+                    console.log(`res from password update was ${res}`)
+                  });
+                });
+
+
+                // User.findOneAndUpdate({ username: decoded.user}, { password: req.body.newPassword }).then(res => {
+                //   console.log(`res from password update was ${res}`)
+                // });
+              } else {
+                console.log(`${decoded.user} is trying to change their password but the password is not matching the one in the database`)
+              }
+            });
+        });
+      return res.send({ message: 'You are trying to change the password' })
+    });
+
+
   }
 }
