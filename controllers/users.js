@@ -120,7 +120,7 @@ module.exports = {
         }
       });
   },
-  async changePassword(req, res) {
+  async changePassword(req, gres) {
     console.log(`req.body is: ${JSON.stringify(req.body)}`)
     if (req.body.token === undefined) {
       return console.log('token is undefined, cannot change password');
@@ -137,15 +137,16 @@ module.exports = {
                 .then((hash) => {
                   console.log(`hash is: ${hash}`);
                   User.findOneAndUpdate({ username: decoded.user }, { password: hash }).then(res => {
-                    console.log(`res from password update was ${res}`)
+                    console.log(`res from password update was ${res}`);
+                    gres.send({ passwordChangeResponse: 'success' });      
                   });
                 });
               } else {
-                console.log(`${decoded.user} is trying to change their password but the password is not matching the one in the database`)
+                console.log(`${decoded.user} is trying to change their password but the password is not matching the one in the database`);
+                gres.send({ passwordChangeResponse: 'failed' });
               }
             });
         });
-      return res.send({ message: 'You are trying to change the password' })
     });
 
 
