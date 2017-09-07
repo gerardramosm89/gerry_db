@@ -13,7 +13,8 @@ const BlogSchema = new Schema({
   },
   difficulty: { type: String, required: true },
   publish: { type: Boolean, required: true, default: false },
-  titleImageName: { type: String, require: true }
+  titleImageName: { type: String, require: true },
+  subCategory: { type: String }
 }, { timestamps: true});
 
 const Blog = mongoose.model('blogs', BlogSchema);
