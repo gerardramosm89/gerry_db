@@ -132,5 +132,12 @@ module.exports = {
           return 0
         }));
       });
+  },
+  fetchAmountByLearningPath(req, res) {
+    var learningPath = req.body.learningPath;
+    Blog.find({ 'learningPath.path': learningPath })
+      .then(posts => {
+        res.send({ message: `Number of posts by learning path: ${learningPath} is: ${posts.length}`})
+      });
   }
 };

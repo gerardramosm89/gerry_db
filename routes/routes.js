@@ -61,4 +61,5 @@ module.exports = (app) => {
   app.post('/api/updateOne', BlogCtrl.findOneandUpdate);
   app.post('/api/fetchall', BlogCtrl.fetchAll);
   app.post('/api/learningpath', BlogCtrl.fetchByLearningPath);
+  app.post('/api/numbylearningpath', BlogCtrl.fetchAmountByLearningPath);
 };
