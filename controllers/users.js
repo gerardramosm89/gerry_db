@@ -107,7 +107,7 @@ module.exports = {
     console.log('---------');
     console.log('currently verifying token');
       let token = req.body.token;
-      if (!token) return console.log('no token to verify, need to sign in');
+      if (!token || token === null) return console.log('no token to verify, need to sign in');
       jwt.verify(token, 'secret', (err, decoded) => {
         if (err) {
           console.log('verifying token ran into an error: ', err);
