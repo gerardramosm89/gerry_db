@@ -25,6 +25,7 @@
     "moment": "^2.18.1",
     "mongoose": "^4.9.5",
     "nodemon": "^1.11.0",
+    "stripe": "^5.4.0",
     "supertest": "^3.0.0"
   }
 }
