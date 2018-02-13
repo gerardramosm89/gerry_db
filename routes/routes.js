@@ -1,7 +1,5 @@
 const UsersCtrl = require('../controllers/users');
 const BlogCtrl = require('../controllers/blog_posts');
-const CompaniesCtrl = require('../controllers/companies');
-const MessageThreadCtrl = require('../controllers/mern_chat/messageThreadController');
 const jwt = require('jsonwebtoken');
 
 module.exports = (app) => {
@@ -32,10 +30,6 @@ module.exports = (app) => {
   app.post('/api', (req, res) => {
     res.send({ message: "Hello from the API!" });
   });
-
-  // MessageThread Routes
-  app.post('/api/messagethread', MessageThreadCtrl.create);
-  app.post('/api/addmessage', MessageThreadCtrl.addMessage);
   
   // Users Routes
   app.post('/api/users', UsersCtrl.create);
@@ -44,13 +38,6 @@ module.exports = (app) => {
   app.put('/api/users', UsersCtrl.update);
   app.post('/api/verifytoken', UsersCtrl.verifyToken);
   app.post('/api/changepassword', UsersCtrl.changePassword);
-
-
-  // Companies Routes
-  app.post('/api/companies', CompaniesCtrl.create);
-  app.get('/api/companies', CompaniesCtrl.findAll);
-  app.get('/api/companies/:id',CompaniesCtrl.getById);
-  app.get('/api/companies/:id/users', CompaniesCtrl.fetchUsersForCompany);
   
   // Blog Routes
   app.post('/api/blogs/create', BlogCtrl.create);
